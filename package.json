@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "3d-tiles-renderer": "^0.3.25",
+    "enable3d": "^0.25.4",
+    "jolt-physics": "^0.18.0",
+    "oimo": "^1.0.9",
+    "postprocessing": "^6.34.3",
+    "three": "^0.161.0",
+    "three-gpu-pathtracer": "^0.0.19",
+    "three-mesh-bvh": "^0.7.3",
+    "wwobjloader2": "^6.2.0"
+  },
+  "devDependencies": {
+    "vite": "^5.1.3"
+  }
+}
