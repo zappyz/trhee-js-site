@@ -1,11 +1,7 @@
 import * as THREE from 'three';
 
-let isAnimating = false; // New variable to track animation state
-let isDragging = false;
-let previousMousePosition = {
-    x: 0,
-    y: 0
-};
+let isSphereFormed = false; // Initialize isSphereFormed
+let targetPositions = null; // Initialize targetPositions
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -15,7 +11,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Particle parameters
-const particleCount = 1000;
+const particleCount = 100000; // Increase the number of particles
 const particlePositions = new Float32Array(particleCount * 3); // Buffer for particle positions
 const particleMaterial = new THREE.PointsMaterial({ color: 0xffffff });
 
@@ -39,61 +35,44 @@ camera.position.z = 300;
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-    if (!isAnimating) {
-        particleSystem.rotation.y += 0.01; // Rotate the particle system
-    }
-}
 
-animate();
+    // Always rotate the particle system
+    particleSystem.rotation.y += 0.01;
+
+    // Render the scene
+    renderer.render(scene, camera);
+}
 
 // Event listener for wheel events
 document.addEventListener('wheel', handleScroll, { passive: false });
-
-// Event listeners for touch events
-document.addEventListener('touchstart', onTouchStart);
-document.addEventListener('touchmove', onTouchMove);
-document.addEventListener('touchend', onTouchEnd);
-
-let isSphereFormed = false;
-let targetPositions = null;
 
 function handleScroll(event) {
     event.preventDefault(); // Prevent default scroll behavior
 
     let deltaY = event.deltaY || event.deltaX;
 
-    if (event.touches && event.touches.length > 0) {
-        deltaY = -(event.touches[0].clientY - previousMousePosition.y);
-    }
-
-    if (deltaY > 0 && window.scrollY === 0) {
-        if (!isSphereFormed) {
-            targetPositions = calculateSpherePositions();
-            animateParticlesToSphere();
-            isAnimating = true;
-            isSphereFormed = true;
-        }
-    } else if (deltaY < 0) {
-        if (isSphereFormed) {
-            targetPositions = particlePositions.slice(); // Reset to original positions
-            scatterParticles();
-            isAnimating = false;
-            isSphereFormed = false;
-        }
+    // Only trigger the animation when scrolling down and the sphere is not formed
+    if (deltaY > 0 && window.scrollY === 0 && !isSphereFormed) {
+        targetPositions = calculateSpherePositions();
+        particleMaterial.color.set(0xff0000); // Set color to red immediately
+        animateParticlesToSphere();
+        isSphereFormed = true;
     }
 }
 
-
 // Function to calculate target positions forming a sphere
 function calculateSpherePositions() {
-    const targetSphere = new THREE.SphereGeometry(100, 32, 32); // Define target sphere geometry
+    const targetSphere = new THREE.SphereGeometry(100, 64, 64); // Increase segments to 64
     return targetSphere.attributes.position.array; // Get target sphere positions
 }
 
 // Function to animate particles forming a sphere
 function animateParticlesToSphere() {
+    // Set color to red immediately
+    particleMaterial.color.set(0xff0000);
+
     const duration = 2000; // Animation duration in milliseconds
+    const halfwayTime = duration / 2; // Time to halfway point
     const startTime = Date.now();
 
     function updateParticles() {
@@ -101,11 +80,16 @@ function animateParticlesToSphere() {
         const elapsedTime = currentTime - startTime;
         const progress = Math.min(elapsedTime / duration, 1); // Clamp progress to 1
 
+        // Update particle positions
         for (let i = 0; i < particleCount * 3; i++) {
             particlePositions[i] += (targetPositions[i] - particlePositions[i]) * progress;
         }
 
+        // Update particle colors directly to red
+        particleMaterial.color.set(0xff0000);
+
         particleGeometry.attributes.position.needsUpdate = true; // Update particle positions
+        particleMaterial.needsUpdate = true; // Update particle material
 
         if (progress < 1) {
             requestAnimationFrame(updateParticles); // Continue animation if not finished
@@ -115,65 +99,5 @@ function animateParticlesToSphere() {
     updateParticles(); // Start the animation
 }
 
-// Function to scatter particles
-function scatterParticles() {
-    const duration = 2000; // Animation duration in milliseconds
-    const startTime = Date.now();
-
-    function updateParticles() {
-        const currentTime = Date.now();
-        const elapsedTime = currentTime - startTime;
-        const progress = Math.min(elapsedTime / duration, 1); // Clamp progress to 1
-
-        for (let i = 0; i < particleCount * 3; i++) {
-            particlePositions[i] += (targetPositions[i] - particlePositions[i]) * progress;
-        }
-
-        particleGeometry.attributes.position.needsUpdate = true; // Update particle positions
-
-        if (progress < 1) {
-            requestAnimationFrame(updateParticles); // Continue animation if not finished
-        }
-    }
-
-    updateParticles(); // Start the animation
-}
-
-function onTouchStart(event) {
-    event.preventDefault();
-    isDragging = true;
-    previousMousePosition = {
-        x: event.touches[0].clientX,
-        y: event.touches[0].clientY
-    };
-    if (event.touches.length > 1) {
-        // Handle multitouch
-        // Additional logic for multitouch if needed
-    }
-}
-
-function onTouchMove(event) {
-    event.preventDefault();
-    if (!isDragging) return;
-
-    const deltaMove = {
-        x: event.touches[0].clientX - previousMousePosition.x,
-        y: event.touches[0].clientY - previousMousePosition.y
-    };
-
-    if (Math.abs(deltaMove.x) > Math.abs(deltaMove.y)) {
-        camera.position.x += deltaMove.x * 0.1;
-    } else {
-        camera.position.y -= deltaMove.y * 0.1;
-    }
-
-    previousMousePosition = {
-        x: event.touches[0].clientX,
-        y: event.touches[0].clientY
-    };
-}
-
-function onTouchEnd(event) {
-    event.preventDefault();
-    isDragging = false;
-}
+// Start the animation loop
+animate();

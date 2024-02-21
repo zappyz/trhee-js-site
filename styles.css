@@ -5,6 +5,7 @@ body {
 }
 
 .card {
+    display: none; /* Initially hide the card */
     position: absolute;
     top: 50%;
     left: 10%; /* Adjust as needed */
@@ -14,6 +15,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
+
 
 #sphereCanvas {
     position: absolute;
