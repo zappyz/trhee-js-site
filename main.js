@@ -39,6 +39,9 @@ function animate() {
     // Always rotate the particle system
     particleSystem.rotation.y += 0.01;
 
+    // Adjust camera position for parallax scrolling
+    camera.position.y = -window.scrollY * 0.1; // Adjust the factor to control the intensity of parallax
+
     // Render the scene
     renderer.render(scene, camera);
 }
@@ -51,14 +54,44 @@ function handleScroll(event) {
 
     let deltaY = event.deltaY || event.deltaX;
 
-    // Only trigger the animation when scrolling down and the sphere is not formed
-    if (deltaY > 0 && window.scrollY === 0 && !isSphereFormed) {
-        targetPositions = calculateSpherePositions();
-        particleMaterial.color.set(0xff0000); // Set color to red immediately
-        animateParticlesToSphere();
-        isSphereFormed = true;
+    // Calculate the maximum scroll position
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+    // Only trigger the animation when scrolling down
+    if (deltaY > 0) {
+        if (window.scrollY === 0 && !isSphereFormed) {
+            // Scroll down to form the sphere
+            targetPositions = calculateSpherePositions();
+            particleMaterial.color.set(0xff0000); // Set color to red immediately
+            animateParticlesToSphere();
+            isSphereFormed = true;
+
+            // Delay showing the card by 10 seconds
+            setTimeout(() => {
+                document.querySelector('.card').style.display = 'block';
+            }, 10000); // 10 seconds in milliseconds
+        } else if (window.scrollY > maxScroll / 2 && !isSplitScreen) {
+            // Scroll to the bottom half of the page
+            splitScreen();
+            isSplitScreen = true;
+        } else if (window.scrollY > window.innerHeight && !isYellowAreaIntroduced) {
+            // Scroll further down to introduce yellow area
+            moveSphereToTop();
+            introduceYellowArea();
+            isYellowAreaIntroduced = true;
+        }
     }
 }
+
+// function splitScreen() {
+//     document.body.classList.add('split-container');
+//     document.body.innerHTML += `<div class="left-half"></div><div class="right-half"></div>`;
+//     setTimeout(() => {
+//         document.querySelector('.left-half').style.backgroundColor = '#ff0000'; // Change color of left half
+//     }, 1000); // Add a delay if necessary
+// }
+
+
 
 // Function to calculate target positions forming a sphere
 function calculateSpherePositions() {
