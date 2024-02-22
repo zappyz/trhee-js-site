@@ -94,6 +94,8 @@ body, html {
     box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.295);
     transition: width 0.3s ease, transform 0.3s ease;
     padding: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent; /* thumb color and transparent track */
 }
 
 .side-panel:hover {
@@ -217,3 +219,36 @@ body, html {
         border-color: transparent;
     }
 }
+
+/* WebKit (Chrome, Safari, etc.) */
+.side-panel::-webkit-scrollbar {
+    width: 8px; /* width of the scrollbar */
+  }
+  
+  .side-panel::-webkit-scrollbar-thumb {
+    background-color: #555; /* color of the thumb */
+    border-radius: 4px; /* roundness of the thumb */
+  }
+  
+  .side-panel::-webkit-scrollbar-thumb:hover {
+    background-color: #333; /* color of the thumb on hover */
+  }
+  
+  /* Mozilla Firefox */
+  .side-panel {
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent; /* thumb color and transparent track */
+  }
+  
+  .side-panel::-moz-scrollbar {
+    width: 8px; /* width of the scrollbar */
+  }
+  
+  .side-panel::-moz-scrollbar-thumb {
+    background-color: #555; /* color of the thumb */
+    border-radius: 4px; /* roundness of the thumb */
+  }
+  
+  .side-panel::-moz-scrollbar-thumb:hover {
+    background-color: #333; /* color of the thumb on hover */
+  }
