@@ -157,12 +157,64 @@ function createSidePanels() {
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed lorem et nisi dignissim tristique. Sed quis sapien vitae risus congue vehicula. Sed eu est vel enim dignissim lacinia. Phasellus nec faucibus quam. Curabitur ac dolor et odio finibus commodo ac ut libero.</p>
                     <p>Donec eu scelerisque justo. Curabitur non augue vel ipsum laoreet fermentum. Sed nec eros tellus. Duis eget magna vitae risus gravida vestibulum. Ut ac mi a eros porttitor rhoncus. Sed sed ultricies quam, vitae varius felis. Vivamus id tincidunt ex. Fusce ac odio nec purus consectetur mollis non nec lectus.</p>
                     <p>Nunc ultrices elit at nulla sodales, a vestibulum nulla ultricies. Nam nec nunc ut leo facilisis condimentum. Curabitur nec rhoncus mauris. Proin in dui sit amet odio feugiat finibus. Ut aliquam mi eu est blandit hendrerit.</p>
+                    <div class="experience">
+                        <h2>Experience</h2>
+                        <div class="experience-item">
+                            <h4>HTML & CSS</h4>
+                            <div class="progress">
+                                <div class="progress-bar html-css-progress">90%</div>
+                            </div>
+                        </div>
+                        <div class="experience-item">
+                            <h4>JavaScript (React, Angular, NextJS, VueJS)</h4>
+                            <div class="progress">
+                                <div class="progress-bar js-progress">80%</div>
+                            </div>
+                        </div>
+                        <div class="experience-item">
+                            <h4>PHP/SQL (Microsoft SQL Server/Database)</h4>
+                            <div class="progress">
+                                <div class="progress-bar react-progress">80%</div>
+                            </div>
+                        </div>
+                        <div class="experience-item">
+                            <h4>Microsoft Azure</h4>
+                            <div class="progress">
+                                <div class="progress-bar node-progress">80%</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     `;
     document.body.appendChild(leftPanel);
-
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        animateProgress('.html-css-progress', 90);
+        animateProgress('.js-progress', 80);
+        animateProgress('.react-progress', 75);
+        animateProgress('.node-progress', 70);
+    });
+    
+    function animateProgress(selector, target) {
+        const progressBar = document.querySelector(selector + ' .progress-bar');
+        const totalWidth = progressBar.parentElement.offsetWidth; // Get total width of progress bar container
+        const targetWidth = (target / 100) * totalWidth; // Calculate target width based on percentage
+        let width = 0;
+        const increment = targetWidth / 100; // Calculate increment based on target width and 100%
+        const interval = setInterval(frame, 10);
+        function frame() {
+            if (width >= targetWidth) {
+                clearInterval(interval);
+            } else {
+                width += increment;
+                progressBar.style.width = width + 'px';
+                progressBar.textContent = Math.round((width / totalWidth) * 100) + '%';
+            }
+        }
+    }    
+    
     // Create right panel
     const rightPanel = document.createElement('div');
     rightPanel.id = 'rightPanel';
@@ -191,9 +243,11 @@ function createSidePanels() {
                 repoElement.classList.add('repository');
                 repoElement.innerHTML = `
                     <h2>Projects</h2>
-                    <h1 class="repo-name">${repo.name}</h1>
-                    <p class="repo-description">${repo.description || 'No description available'}</p>
-                    <p class="repo-link"><a href="${repo.html_url}" target="_blank">View on GitHub</a></p>
+                    <div class="repo-info">
+                        <h3 class="repo-name">${repo.name}</h3>
+                        <p class="repo-description">${repo.description || 'No description available'}</p>
+                    </div>
+                    <div class="repo-link"><a href="${repo.html_url}" target="_blank">View on GitHub</a></div>
                 `;
                 repositoriesContainer.appendChild(repoElement);
             });

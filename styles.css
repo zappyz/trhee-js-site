@@ -20,7 +20,7 @@ body, html {
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
     color: #fff;
-    font-size: 3vw; /* Responsive font size */
+    font-size: 3vw;
     font-weight: bold;
     text-align: center;
     text-shadow: 
@@ -53,7 +53,6 @@ body, html {
     opacity: 1; 
 }
 
-
 .navbar ul {
     list-style-type: none;
     margin: 0;
@@ -70,8 +69,8 @@ body, html {
     color: #fff;
     font-weight: bold;
     text-transform: uppercase;
-    padding: 1vh 2vw; /* Responsive padding */
-    border-radius: 0.5vw; /* Responsive border radius */
+    padding: 1vh 2vw;
+    border-radius: 0.5vw;
     transition: background-color 0.3s ease;
 }
 
@@ -82,24 +81,24 @@ body, html {
 .side-panel {
     z-index: 1100;
     position: fixed;
-    top: 7vh; /* Adjusted to accommodate the navbar */
-    width: 20vw; /* Responsive width */
+    top: 7vh;
+    width: 20vw;
     height: calc(100% - 7vh);
     background-color: #222;
     color: #fff;
     box-sizing: border-box;
     overflow-y: auto;
-    opacity: 0; /* Initially set opacity to 0 */
-    animation: fadeInPanel 1s forwards; /* Fade-in animation for the side panels */
-    border: 2px solid transparent; /* Initial border */
-    box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.295); /* Initial box shadow */
-    transition: width 0.3s ease, transform 0.3s ease; /* Add transition for width and transform */
-    padding: 20px; /* Add padding to prevent content from moving outside */
+    opacity: 0;
+    animation: fadeInPanel 1s forwards;
+    border: 2px solid transparent;
+    box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.295);
+    transition: width 0.3s ease, transform 0.3s ease;
+    padding: 20px;
 }
 
 .side-panel:hover {
-    width: 25vw; /* Expanded width on hover */
-    transform: translateX(-5px); /* Move the panel slightly left on hover */
+    width: 25vw;
+    transform: translateX(-5px);
 }
 
 #rightPanel {
@@ -119,8 +118,8 @@ body, html {
 }
 
 .repository-panel {
-    max-height: calc(100vh - 50px); /* Adjust panel height as needed */
-    overflow-y: auto; /* Add vertical scrollbar if content exceeds panel height */
+    max-height: calc(100vh - 50px);
+    overflow-y: auto;
     padding: 20px;
 }
 
@@ -149,44 +148,72 @@ body, html {
     text-decoration: underline;
 }
 
+.experience {
+    margin-top: 20px;
+}
+
+.experience-item {
+    margin-bottom: 15px;
+}
+
+.progress {
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #007bff;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    transition: width 0.6s ease;
+}
+
+.html-css-progress .progress-bar {
+    background-color: #17a2b8;
+}
+
+.js-progress .progress-bar {
+    background-color: #28a745;
+}
+
+.react-progress .progress-bar {
+    background-color: #ffc107;
+}
+
+.node-progress .progress-bar {
+    background-color: #dc3545;
+}
+
+@media (max-width: 768px) {
+    .navbar ul li {
+        margin-right: 1.5vw;
+    }
+    .navbar ul li a {
+        padding: 1vh 1.5vw;
+        border-radius: 0.3vw;
+    }
+    .side-panel {
+        width: 30vw;
+    }
+}
 
 @keyframes breathing-glow {
     0% { 
         box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.295); 
-        border-color: transparent; /* Start with transparent border */
+        border-color: transparent;
     }
     50% { 
         box-shadow: 0 0 20px 10px rgba(255, 0, 0, 0.7); 
-        border-color: red; /* Change border color to red */
+        border-color: red;
     }
     100% { 
         box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.295); 
-        border-color: transparent; /* Revert border to transparent */
+        border-color: transparent;
     }
 }
-
-/* Media Query for smaller screens */
-@media (max-width: 768px) {
-    .navbar ul li {
-        margin-right: 1.5vw; /* Adjusted margin for smaller screens */
-    }
-    .navbar ul li a {
-        padding: 1vh 1.5vw; /* Adjusted padding for smaller screens */
-        border-radius: 0.3vw; /* Adjusted border radius for smaller screens */
-    }
-    .side-panel {
-        width: 30vw; /* Adjusted width for smaller screens */
-    }
-}
-
-@keyframes fadeInNavbar {
-    0% { opacity: 0; } /* Start with opacity 0 */
-    100% { opacity: 1; } /* Fade in to full opacity */
-}
-
-@keyframes fadeInPanel {
-    0% { opacity: 0; } /* Start with opacity 0 */
-    100% { opacity: 1; } /* Fade in to full opacity */
-}
-
-/* Add other keyframes and animations here */
