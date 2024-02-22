@@ -29,7 +29,7 @@ camera.position.z = 300;
 
 function animate() {
     requestAnimationFrame(animate);
-    particleSystem.rotation.y += 0.01;
+    particleSystem.rotation.y += 0.002; // rotation speed particles
     camera.position.y = -window.scrollY * 0.1;
     renderer.render(scene, camera);
 }
@@ -98,9 +98,10 @@ function animateParticlesToSphere() {
         const currentTime = Date.now();
         const elapsedTime = currentTime - startTime;
         const progress = Math.min(elapsedTime / duration, 1);
+        const interpolationFactor = 0.1;
 
         for (let i = 0; i < particleCount * 3; i++) {
-            particlePositions[i] += (targetPositions[i] - particlePositions[i]) * progress;
+            particlePositions[i] += (targetPositions[i] - particlePositions[i]) * progress * interpolationFactor;
         }
 
         particleMaterial.color.set(0xff0000);
