@@ -1,59 +1,35 @@
-body {
+body, html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-}
-
-.card {
-    display: none; /* Initially hide the card */
-    position: absolute;
-    top: 50%;
-    left: 10%; /* Adjust as needed */
-    transform: translateY(-50%);
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    z-index: 1; /* Ensure cards appear above the canvas */
-}
-
-#sphereCanvas {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
     width: 100%;
     height: 100%;
 }
 
-/* CSS to split the screen diagonally */
-.split-container {
+#canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.neon-title {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
+    top: 50%;
+    left: 35%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    color: #fff;
+    font-family: 'Roboto', sans-serif; /* Apply the Roboto font */
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 
+        0 0 10px #ff0000, 
+        0 0 20px #ff0000, 
+        0 0 30px #ff0000, 
+        0 0 40px #ff0000, 
+        0 0 70px #ff0000, 
+        0 0 80px #ff0000, 
+        0 0 100px #ff0000, 
+        0 0 150px #ff0000; /* Apply the text-shadow effect in red */
 }
-
-.left-half {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background-color: #fff; /* Adjust default color as needed */
-    transition: background-color 0.5s ease; /* Smooth transition for color change */
-}
-
-.right-half {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    background-color: #fff; /* Adjust default color as needed */
-    transition: background-color 0.5s ease; /* Smooth transition for color change */
-}
-
